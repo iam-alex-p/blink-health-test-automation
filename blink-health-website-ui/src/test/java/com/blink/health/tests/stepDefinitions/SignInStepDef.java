@@ -72,7 +72,6 @@ public class SignInStepDef extends BaseTest {
                     actualResult = mfaPage.isVerificationCodeFieldExists();
                 } else {
                     UserAccountPage userAccountPage = (UserAccountPage) loggedInPage;
-//                    actualResult = userAccountPage.
                 }
             }
             Assert.assertEquals(actualResult, credentials.isValidEmail() && credentials.isValidPassword() && credentials.isAuthenticatable());
@@ -82,18 +81,18 @@ public class SignInStepDef extends BaseTest {
     @Then("Verify Blink Health Sign Up workflow with the following Credentials")
     public void verify_blink_health_sign_up(List<BlinkHealthCredentialsEntity> lstCredentials) {
         for (BlinkHealthCredentialsEntity credentials: lstCredentials) {
+            boolean actualResult = false;
+
             this.signUpPage.enterEmail(credentials.getEmail());
             this.signUpPage.enterPassword(credentials.getPassword());
-//            boolean actualResult;
-//            if (!credentials.isValidEmail()) {
-//                actualResult = !this.signInPage.signInInvalidEmail(credentials.getEmail());
-//            } else if (!credentials.isValidPassword()) {
-//                actualResult = !this.signInPage.signInInvalidPassword(credentials.getEmail(), credentials.getPassword());
-//            } else {
-//                MFAPage mfaPage = (MFAPage) this.signInPage.signInSuccessfully(credentials.getEmail(), credentials.getPassword(), credentials.isMFA());
-//                actualResult = mfaPage.isVerificationCodeFieldExists();
-//            }
-//            Assert.assertEquals(actualResult, credentials.isValidEmail() && credentials.isValidPassword());
+
+            if (!credentials.isValidEmail()) {
+                actualResult = !this.signUpPage.isSignUpDisabled();
+            } else if (!credentials.isValidPassword()) {
+                actualResult = !this.signUpPage.signUpInvalidPassword();
+            }
+
+            Assert.assertEquals(actualResult, credentials.isValidEmail() && credentials.isValidPassword());
         }
     }
 }

@@ -14,13 +14,11 @@ public class BasePage {
 
     protected final WebDriver driver;
     private final WebDriverWait wait;
-    private final Actions actions;
     private final String WEB_ELEMENT_WITH_TEXT_XPATH = "//*[text()='%s']";
 
     public BasePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(this.driver, Duration.ofSeconds(TIMEOUT), Duration.ofSeconds(POLLING));
-        this.actions = new Actions(this.driver);
 
         this.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(TIMEOUT));
 
@@ -77,12 +75,6 @@ public class BasePage {
 
     public boolean isElementHasAttr(WebElement element, String attrName) {
         return element.getAttribute(attrName) != null;
-    }
-
-    public void moveToElement(WebElement element) throws InterruptedException {
-        // TODO fix Thread.sleep hard-coded delay
-        ((JavascriptExecutor) this.driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        Thread.sleep(500);
     }
 
     public Boolean isElementWithTextExists(String text) {
